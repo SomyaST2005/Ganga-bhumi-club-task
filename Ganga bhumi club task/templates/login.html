@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Log In</h2>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flash-messages">
+                {% for category, message in messages %}
+                    <li class="flash {{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% endwith %}
+        <form id="loginForm" method="POST">
+            <div class="form-group">
+                <label for="emailOrMobile">Email/Mobile Number:</label>
+                <input type="text" id="emailOrMobile" name="email_or_mobile" value="{{ request.form.get('email_or_mobile', '') }}" required>
+                {% if email_error %}
+                    <span id="emailError" class="error-message">{{ email_error }}</span>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                {% if password_error %}
+                    <span id="passwordError" class="error-message">{{ password_error }}</span>
+                {% endif %}
+            </div>
+            <button type="submit">Log In</button>
+        </form>
+        <p><a href="{{ url_for('signup') }}">Don't have an account? Sign up</a></p>
+    </div>
+    <script src="{{ url_for('static', filename='js/validation.js') }}"></script>
+</body>
+</html>
